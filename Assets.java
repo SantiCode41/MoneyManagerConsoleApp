@@ -6,6 +6,8 @@ public class Assets {
 		
 	}
 	
+
+	// Simulated loading bar
 	public void loadingBar(int length, String outputMessage, String redirectMessage) {
 		int percentIncrement = 100 / length;
 		int maxDelay = 10;
@@ -29,5 +31,11 @@ public class Assets {
 		catch (InterruptedException e) {
 			System.out.println("Loading interrupted: " + e.getMessage());
 		}
+	}
+	
+	// Clear the terminal
+	public void clearTerminal() {
+		System.out.println("\033[H\033[2J");  // Clearing terminal
+		System.out.flush();
 	}
 }
