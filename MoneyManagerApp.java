@@ -9,14 +9,16 @@ import java.sql.SQLException;
 public class MoneyManagerApp {
 	public static void main(String[] args) {
 		// Start of application
-		System.out.println("Application Starting...");  
+		System.out.println("Application Starting...");
+		
+		Assets asset = new Assets();  // Assets object for visual items such as loading bars
 		
 		// Connecting to the database
 		System.out.println("Connecting to SQLite database...");
 		String dbName = "mmappdb.db";
 		String url = String.format("jdbc:sqlite:%s", dbName);
 		try (Connection connection = DriverManager.getConnection(url)) {
-			loadingBar(20, "Connected to SQLite database.", "Redirecting you to main menu");  // (loading bar length, message once loading completes, message informing user where they are being sent)
+			asset.loadingBar(20, "Connected to SQLite database.", "Redirecting you to main menu");  // (loading bar length, message once loading completes, message informing user where they are being sent)
 		}
 		catch (SQLException e) {
 			System.out.println("Error occured. Unable to connect to database " + dbName);
@@ -45,7 +47,9 @@ public class MoneyManagerApp {
 					requestedState = mainMenuState;
 					continue;
 				case mainMenuState:  // Show Main Menu
-					returnedString = showMainMenu(scnr);
+					//returnedString = showMainMenu(scnr);
+					MainMenu moduleMain = new MainMenu();
+					returnedString = moduleMain.show(scnr);
 					break;
 				case selectBudgetState:
 					System.out.println("This is where you will see a list of budgets to choose from");
@@ -83,71 +87,29 @@ public class MoneyManagerApp {
 	}
 	
 	
-	// Method to present the user with the main menu
-	private static String showMainMenu(Scanner scnr) {
-		System.out.println(
-			"""
-					Main Menu
-			1) Select Budget
-			2) Create New Budget
-			3) Exit Program
-			"""
-		);
-		
-		int userChoice = 0;
-		
-		while (userChoice == 0) {
-			userChoice = scnr.nextInt();
-			scnr.nextLine();
-			
-			final int selectBudget = 1;
-			final int createBudget = 2;
-			final int exitProgram = 3;
-			
-			switch (userChoice) {
-				case selectBudget:
-					return "selectBudget";
-				case createBudget:
-					return "createBudget";
-				case exitProgram:
-					return "exitProgram";
-				default:
-					System.out.println("Invalid choice. Please select another item.");
-			}
-		}
-		return "unexpectedError";
-	}
-	
-	
-	// Method to allow the user to select a budget
-	//private static String showSelectBudget(Scanner scnr) {
-		
-	//}
-	
-	
-	// Loading bar method to simulate progress
-	private static void loadingBar(int length, String outputMessage, String redirectMessage) {
-		int percentIncrement = 100 / length;
-		int maxDelay = 751;
-		Random randomNum = new Random();
-		int sleepDelay;
-		try {
-			for (int i = 0; i <= length; i++) {
-				System.out.print("\r[");
-				System.out.print(String.valueOf('#').repeat(i));
-				System.out.print(String.valueOf(' ').repeat(length - i));
-				System.out.print(String.format("] %d%%", (i * percentIncrement)));
-				System.out.flush();
-				sleepDelay = randomNum.nextInt(maxDelay);
-				Thread.sleep(sleepDelay);
-			}
-			
-			System.out.println("\n" + outputMessage);
-			System.out.println(redirectMessage);
-			Thread.sleep(2000);
-		}
-		catch (InterruptedException e) {
-			System.out.println("Loading interrupted: " + e.getMessage());
-		}
-	}
+//	// Loading bar method to simulate progress
+//	private static void loadingBar(int length, String outputMessage, String redirectMessage) {
+//		int percentIncrement = 100 / length;
+//		int maxDelay = 10;
+//		Random randomNum = new Random();
+//		int sleepDelay;
+//		try {
+//			for (int i = 0; i <= length; i++) {
+//				System.out.print("\r[");
+//				System.out.print(String.valueOf('#').repeat(i));
+//				System.out.print(String.valueOf(' ').repeat(length - i));
+//				System.out.print(String.format("] %d%%", (i * percentIncrement)));
+//				System.out.flush();
+//				sleepDelay = randomNum.nextInt(maxDelay);
+//				Thread.sleep(sleepDelay);
+//			}
+//			
+//			System.out.println("\n" + outputMessage);
+//			System.out.println(redirectMessage);
+//			Thread.sleep(2000);
+//		}
+//		catch (InterruptedException e) {
+//			System.out.println("Loading interrupted: " + e.getMessage());
+//		}
+//	}
 }
