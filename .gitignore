@@ -1,0 +1,11 @@
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Compiled Java files
+*.class
+
+# IDE and editor files
+.DS_Store
+*.log
